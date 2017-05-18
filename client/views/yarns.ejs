@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="saileela" manifest="saileela.appcache">
+<head>
+	<% include ./partials/header %>
+</head>
+<body>
+	<div id="wrapper" ng-controller="yarnsController">
+		<% include ./partials/nav %>
+		<div id="page-wrapper">
+			<div class="container-fluid min-height-inherit">
+				<div class="row min-height-inherit">
+					<h1 class="page-header">Yarns <button ng-click="add()">Add</button></h1>
+					<div class="col-lg-12 min-height-inherit">
+						<% include ./partials/loading %>
+						<table id="content" class="table">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Spinning Mill</th>
+									<th>Buying Price</th>
+									<th>Costing Price</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in items">
+									<td>{{item.doc.name}}</td>
+									<td>{{item.doc.spinningMill.company}}</td>
+									<td>{{item.doc.buyingPrice | currency : "INR "}}</td>
+									<td>{{item.doc.costingPrice | currency: "INR "}}</td>
+									<td><a href="#" ng-click="edit(item)"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Edit</h4>
+					</div>
+					<div class="modal-body">
+						<form ng-submit="addOrUpdate()">
+							<div class="form-group">
+								<label for="name">Quality *</label>
+								<input type="text" class="form-control" ng-model="editItem.name" value="{{editItem.name}}" placeholder="ex: 2/18" required>
+							</div>
+							<div class="form-group">
+								<label for="name">Yarn count *</label>
+								<input type="number" class="form-control" ng-model="editItem.yarnCount" value="{{editItem.yarnCount}}" placeholder="ex: 9" required>
+								<span class="yarn-count-helper-text">ex: if yarn is 2/18, yarn count is 9. similarly if yarn is 15 single, it will be 15. this is used to eventually used to calculate the weight in warp/weft</span>
+							</div>
+							<div class="form-group">
+								<label for="phone">Buying Price *</label>
+								<input type="number" class="form-control" ng-model="editItem.buyingPrice" value="{{editItem.buyingPrice}}" placeholder="ex: 59.26" required>
+							</div>
+							<div class="form-group">
+								<label for="phone">Costing Price *</label>
+								<input type="number" class="form-control" ng-model="editItem.costingPrice" value="{{editItem.costingPrice}}" placeholder="ex: 59.50" required>
+							</div>
+							<div class="form-group">
+								<label for="spinningMillName">Spinning Mill *</label><br/>
+								<input type="text" class="form-control typeahead" placeholder="ex: Sangam India Ltd." value='{{editItem.spinningMill.company}}' required>
+								<input type="hidden" value="{{editItem.spinningMillId}}">
+							</div>
+							<button type="submit" class="btn btn-primary" style="width:100%">{{operationType | operationStr}}</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+	</div>
+	
+	<% include ./partials/footerjs %>
+	<script src="/js/controllers/yarns/index.js"></script>
+</body>
+</html>

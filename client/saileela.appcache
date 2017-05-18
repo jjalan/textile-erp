@@ -1,0 +1,56 @@
+CACHE MANIFEST
+# v0.0.8
+
+CACHE:
+/dashboard
+
+/orders
+/js/controllers/orders/index.js
+
+/customers
+/js/controllers/customers/index.js
+
+/agents
+/js/controllers/agents/index.js
+
+/yarns
+/js/controllers/yarns/index.js
+
+/spinningmills
+/js/controllers/spinningmills/index.js
+
+/weavingunits
+/js/controllers/weavingunits/index.js
+
+/staffs
+/js/controllers/staffs/index.js
+
+/settings
+
+# JS
+/bower_components/jquery/dist/jquery.min.js
+/bower_components/bootstrap/dist/js/bootstrap.min.js
+/bower_components/metisMenu/dist/metisMenu.min.js
+/bower_components/angular/angular.min.js
+/bower_components/datatables.net/js/jquery.dataTables.min.js
+/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js
+/bower_components/pouchdb/dist/pouchdb.min.js
+/bower_components/typeahead.js/dist/typeahead.jquery.min.js
+/bower_components/moment/min/moment.min.js
+/js/app.js
+/js/main.js
+
+# CSS
+/bower_components/bootstrap/dist/css/bootstrap.min.css
+/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css
+/bower_components/metisMenu/dist/metisMenu.min.css
+/bower_components/font-awesome/css/font-awesome.min.css
+/css/main.css
+
+# FONT
+/bower_components/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0
+/bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.7.0
+/bower_components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.7.0
+
+NETWORK:
+*

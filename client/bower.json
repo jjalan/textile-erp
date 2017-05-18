@@ -1,0 +1,35 @@
+{
+  "name": "Saileela",
+  "version": "0.0.1",
+  "homepage": "http://www.saileelaindia.com/",
+  "authors": [
+    "Jaikishan Jalan"
+  ],
+  "description": "Leading manufacturer of suiting fabrics in India",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "pages",
+    "index.html",
+    "/js"
+  ],
+  "main": [
+    "css/main.css",
+    "js/main.js"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1",
+    "metisMenu": "^2.5.2",
+    "font-awesome": "^4.7.0",
+    "angular": "^1.5.8",
+    "datatables.net": "^1.10.12",
+    "datatables.net-bs": "^1.10.12",
+    "pouchdb": "^6.0.7",
+    "typeahead.js": "^0.11.1",
+    "moment": "^2.15.2"
+  }
+}

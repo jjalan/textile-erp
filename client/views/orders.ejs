@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="saileela" manifest="saileela.appcache">
+<head>
+	<% include ./partials/header %>
+</head>
+<body>
+	<div id="wrapper" ng-controller="ordersController">
+		<% include ./partials/nav %>
+		<div id="page-wrapper">
+			<div class="container-fluid min-height-inherit">
+				<div class="row min-height-inherit">
+					<h1 class="page-header">Orders <button ng-click="add()">Add</button></h1>
+					<div class="col-lg-12 min-height-inherit">
+						<% include ./partials/loading %>
+						<table id="content" class="table">
+							<thead>
+								<tr>
+									<th>Customer</th>
+									<th>Description</th>
+									<th>Status</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in items">
+									<td><a href="/customer/{{item.doc.customer._id}}" target="_blank">{{item.doc.customer.company}}</a><div ng-if="item.doc.agent" class="order-list-agent-info">via <a href="/agent/{{item.doc.agent._id}}" target="_blank">{{item.doc.agent.company}}</a></div><div ng-if="!item.doc.agent" class="order-list-agent-info">direct</div></td>
+									<td></td>
+									<td>assigned to <a href="/weavingunit/{{item.doc.weavingUnit._id}}" target="_blank"> {{item.doc.weavingUnit.name}}</a><br/><span class="assigned-to-weaving-date">{{ item.doc.createdAt | displayDate}}</span></td>
+									<td><a href="#" ng-click="edit(item)"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Edit</h4>
+					</div>
+					<div class="modal-body">
+						<form ng-submit="addOrUpdate()">
+							<div class="row">
+								<div class="col-lg-12" style="border-right:solid 1px #eee">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-lg-6">
+												<label for="customerName">Customer *</label><br/>
+												<input type="text" class="form-control typeahead" id="customerName" value="{{editItem.customer.company}}" placeholder="ex: Shri Vishal Fab" tabindex="1" required>
+												<input type="hidden" value="{{editItem.customerId}}">
+											</div>
+											<div class="col-lg-6">
+												<label for="agentName">Agent</label><br/>
+												<input type="text" class="form-control typeahead" id="agentName" value="{{editItem.agent.company}}" tabindex="2" placeholder="ex: Textile Agency">
+												<input type="hidden" value="{{editItem.agentId}}">
+											</div>
+										</div>
+									</div>
+									<hr/>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-lg-9">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-lg-3">
+															<label for="fabricWidth">Fabric Width (inch) *</label>
+															<input type="number" class="form-control typeahead" id="fabricWidthInput" value="{{editItem.fabricWidth.width}}" placeholder="ex: 56" tabindex="3" required>
+														</div>
+														<div class="col-lg-3">
+															<label for="dentsPerInchInput">Dents per inch</label>
+															<input type="number" class="form-control" id="dentsPerInchInput" name="dentsPerInchInput" ng-model="editItem.warp.reed.dentsPerInch" value="{{editItem.warp.reed.dentsPerInch}}" tabindex="5" placeholder="ex: 50" required>
+														</div>
+														<div class="col-lg-3">
+															<label for="yarnThreadsPerDentInput">threads per dent</label>
+															<input type="number" class="form-control" id="yarnThreadsPerDentInput" name="yarnThreadsPerDentInput" ng-model="editItem.warp.reed.yarnThreadsPerDent" value="{{editItem.warp.reed.yarnThreadsPerDent}}" tabindex="6" placeholder="ex: 2" required>
+														</div>
+														<div class="col-lg-3">
+															<label for="weftPickCountInput">Pick</label>
+															<input type="number" class="form-control" id="weftPickCountInput" name="weftPickCountInput" ng-model="editItem.weft.pickCount" value="{{editItem.weft.pickCount}}" placeholder="ex: 40" tabindex="8" required>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-lg-4">
+															<label for="warpYarnNameInput">Warp Yarn *</label>
+															<input type="text" class="form-control typeahead" id="warpYarnNameInput" name="warpYarnNameInput" value="{{editItem.warp.yarn?editItem.warp.yarn.name+' '+ editItem.warp.yarn.spinningMill.company:''}}" placeholder="ex: 2/18 Sangam" tabindex="4" required>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-lg-4">
+															<label for="weftYarnNameInput">Weft Yarn *</label>
+															<input type="text" class="form-control typeahead" id="weftYarnNameInput" name="weftYarnNameInput" value="{{editItem.weft.yarn?editItem.weft.yarn.name + ' ' + editItem.weft.yarn.spinningMill.company:''}}" placeholder="ex: 2/18 Sangam" tabindex="7" required>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-2">
+												<div class="form-group">
+													<div class="row">
+														<div class="col-lg-12">
+															<label>warp weight</label>
+															<input ng-model="editItem.warp.weightInGms" type="number" step="any" required> gms
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-lg-12">
+															<label>weft weight</label>
+															<input ng-model="editItem.weft.weightInGms" type="number" step="any" required> gms
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-lg-12">
+															<label>total weight</label>
+															<span ng-model="editItem.weightInGms" style="font-size:160%">{{((parseFloat(editItem.warp.weightInGms)+parseFloat(editItem.weft.weightInGms))) | number:2}}</span> gms
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label>base price</label>
+												</div>
+											</div>
+											<div class="col-lg-1"></div>
+										</div>
+									</div>
+									<hr/>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-lg-2 col-lg-offst-10">
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="weavingUnit">Weaving Unit *</label><br/>
+										<select ng-model="editItem.weavingUnitId">
+											<option ng-repeat="weavingUnit in weavingUnits" value="{{weavingUnit.doc._id}}" {{editItem.weavingUnitId==weavingUnit._id?"selected":""}}>{{weavingUnit.doc.name}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-primary" style="width:100%">{{operationType | operationStr}}</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<% include ./partials/footerjs %>
+	<script src="/js/controllers/orders/index.js"></script>
+</div>
+</body>
+</html>
+

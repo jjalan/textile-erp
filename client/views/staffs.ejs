@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="saileela" manifest="saileela.appcache">
+<head>
+	<% include ./partials/header %>
+</head>
+<body>
+	<div id="wrapper" ng-controller="staffsController">
+		<% include ./partials/nav %>
+		<div id="page-wrapper">
+			<div class="container-fluid min-height-inherit">
+				<div class="row min-height-inherit">
+					<h1 class="page-header">Staff <button ng-click="add()">Add</button></h1>
+					<div class="col-lg-12 min-height-inherit">
+						<% include ./partials/loading %>
+						<table id="content" class="table">
+							<thead>
+								<tr>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>Title</th>
+									<th>Phone</th>
+									<th>Email</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in items">
+									<td>{{item.doc.firstName}}</td>
+									<td>{{item.doc.lastName}}</td>
+									<td>{{item.doc.title}}</td>
+									<td>{{item.doc.phone}}</td>
+									<td>{{item.doc.email}}</td>
+									<td><a href="#" ng-click="edit(item)"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Edit</h4>
+					</div>
+					<div class="modal-body">
+						<form ng-submit="addOrUpdate()">
+							<div class="form-group">
+								<label for="firstName">First Name *</label>
+								<input type="text" class="form-control" ng-model="editItem.firstName" value="{{editItem.firstName}}" placeholder="ex: Jaikishan" required>
+							</div>
+							<div class="form-group">
+								<label for="lastName">Last Name</label>
+								<input type="text" class="form-control" ng-model="editItem.lastName" value="{{editItem.lastName}}" placeholder="ex: Jalan">
+							</div>
+							<div class="form-group">
+								<label for="title">Title</label>
+								<input type="text" class="form-control" ng-model="editItem.title" value="{{editItem.title}}" placeholder="ex: Production Manager">
+							</div>
+							<div class="form-group">
+								<label for="phone">Phone *</label>
+								<input type="tel" class="form-control" ng-model="editItem.phone" value="{{editItem.phone}}" placeholder="ex: +919704140404" required>
+							</div>
+							<div class="form-group">
+								<label for="email">Email</label>
+								<input type="email" class="form-control" ng-model="editItem.email" value="{{editItem.email}}" placeholder="ex: jjalan@saileelaindia.com">
+							</div>
+							<button type="submit" class="btn btn-primary" style="width:100%">{{operationType | operationStr}}</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+	</div>
+	
+	<% include ./partials/footerjs %>
+	<script src="/js/controllers/staffs/index.js"></script>
+</body>
+</html>

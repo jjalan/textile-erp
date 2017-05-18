@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="saileela" manifest="saileela.appcache">
+<head>
+	<% include ./partials/header %>
+</head>
+<body>
+	<div id="wrapper" ng-controller="weavingUnitsController">
+		<% include ./partials/nav %>
+		<div id="page-wrapper">
+			<div class="container-fluid min-height-inherit">
+				<div class="row min-height-inherit">
+					<h1 class="page-header">Weaving Units <button ng-click="add()">Add</button></h1>
+					<div class="col-lg-12 min-height-inherit">
+						<% include ./partials/loading %>
+						<table id="content" class="table">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Address</th>
+									<th>Phone</th>
+									<th>Email</th>
+									<th>Unit Manager</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in items">
+									<td><a href="/weavingunit/{{item.doc._id}}" target="_blank">{{item.doc.name}}</a></td>
+									<td>{{item.doc.address}}</td>
+									<td>{{item.doc.phone}}</td>
+									<td>{{item.doc.email}}</td>
+									<td>{{item.doc.unitManager.firstName + " " + item.doc.unitManager.lastName}}</td>
+									<td><a href="#" ng-click="edit(item)"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Edit</h4>
+					</div>
+					<div class="modal-body">
+						<form ng-submit="addOrUpdate()">
+							<div class="form-group">
+								<label for="name">Name *</label>
+								<input type="text" class="form-control" ng-model="editItem.name" value="{{editItem.name}}" placeholder="ex: Unit III" required>
+							</div>
+							<div class="form-group">
+								<label for="address">Address</label>
+								<input type="text" class="form-control" ng-model="editItem.address" value="{{editItem.address}}" placeholder="ex: RIICO, Bhilwara">
+							</div>
+							<div class="form-group">
+								<label for="phone">Phone</label>
+								<input type="tel" class="form-control" ng-model="editItem.phone" value="{{editItem.phone}}" placeholder="ex: +919704140404">
+							</div>
+							<div class="form-group">
+								<label for="email">Email *</label>
+								<input type="email" class="form-control" ng-model="editItem.email" value="{{editItem.email}}" placeholder="ex: unitiii@saileelaindia.com" required>
+							</div>
+							<div class="form-group">
+								<label for="unitManagerName">Unit Manager *</label><br/>
+								<input type="text" class="form-control typeahead" placeholder="ex: Dharmendar Singh" value='{{editItem.unitManager?editItem.unitManager.firstName + " " + editItem.unitManager.lastName:""}}' required>
+								<input type="hidden" value="{{editItem.unitManagerId}}">
+							</div>
+							<button type="submit" class="btn btn-primary" style="width:100%">{{operationType | operationStr}}</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+	</div>
+	
+	<% include ./partials/footerjs %>
+	<script src="/js/controllers/weavingunits/index.js"></script>
+</body>
+</html>
